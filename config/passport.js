@@ -1,14 +1,14 @@
-// const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./../models/User");
+const bcrypt = require("bcryptjs");
 
 const options = {
   usernameField: "username",
   passwordField: "password",
   passReqToCallback: false,
 };
-function verifyPassword(user, password) {
-  return user.password === password;
+async function verifyPassword(user, password) {
+  return await bcrypt.compare(password, user.password);
 }
 
 async function verify(username, password, done) {

@@ -1,3 +1,3 @@
 {
-    "watch": ["./routes/", "./config/"]
+    "watch": ["./routes/", "./config/", "./views/"]
   }

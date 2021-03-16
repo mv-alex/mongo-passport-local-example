@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 const User = require("./models/User");
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 //use view engine ejs
 app.set("views", __dirname + "views");
@@ -43,14 +44,6 @@ const PasswordDB = process.env.DB_PASSWORD || "password";
 const NameDB = process.env.DB_NAME || "books";
 const HostDb = process.env.DB_HOST || "mongodb://localhost:27017/";
 
-//user for example
-const newUser = new User({
-  username: "user",
-  password: "pass",
-  email: "ex@ex.ex",
-  name: "Name",
-});
-
 async function start() {
   try {
     await mongoose.connect(HostDb, {
@@ -59,6 +52,13 @@ async function start() {
       dbName: NameDB,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+    });
+    //user for example
+    const newUser = new User({
+      username: "user",
+      password: await bcrypt.hash("pass", 10),
+      email: "ex@ex.ex",
+      name: "Name",
     });
     await newUser.save();
     app.listen(PORT, () => {

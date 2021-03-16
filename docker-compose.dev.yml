@@ -25,6 +25,7 @@ services:
     volumes:
       - ./routes:/./routes
       - ./config:/./config
+      - ./views:/./views
     depends_on:
       - mongodb
     command: npm run dev
